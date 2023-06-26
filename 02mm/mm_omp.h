@@ -15,6 +15,7 @@ void mm(matrix &A, matrix &B, matrix &C) {
   assert(N % (2L * L) == 0);
   assert(M % 8 == 0);
 
+#pragma omp parallel for
   for (long i = 0; i < M; i += 8) {
     for (long j = 0; j < N; j += L) {
       realv c0 = set1(0.0);

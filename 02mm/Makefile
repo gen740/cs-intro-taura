@@ -20,6 +20,7 @@ CFLAGS += -O3
 CFLAGS += -march=native
 #CFLAGS += -mavx512f
 CFLAGS += -Wall
+CFLAGS += -fopenmp
 CFLAGS += -Wextra
 
 # perfコマンドのようなイベントをプログラムから取得したい場合は
