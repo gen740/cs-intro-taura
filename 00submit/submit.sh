@@ -28,9 +28,14 @@ batch_main() {
     echo "pwd: $(pwd)"
     echo "hostname: $(hostname)"
 
-    ../02mm/exe/mm_seq.exe -K 2048 -M 2048 -N 2048
+    echo "################################################## SIMD"
     ../02mm/exe/mm_simd.exe -K 2048 -M 2048 -N 2048
-    OMP_PROC_BIND=true OMP_NUM_THREAD=16 ../02mm/exe/mm_omp.exe -K 2048 -M 2048 -N 2048
+
+    echo "################################################## Omp"
+    OMP_PROC_BIND=true OMP_NUM_THREAD=56 ../02mm/exe/mm_omp.exe -K 2048 -M 2048 -N 2048
+
+    echo "################################################## Sequencial"
+    ../02mm/exe/mm_seq.exe -K 2048 -M 2048 -N 2048
 }
 
 # ここから下は書き換える必要なし
