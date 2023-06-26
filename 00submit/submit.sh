@@ -27,8 +27,10 @@ batch_main() {
     echo "whoami: $(whoami)"
     echo "pwd: $(pwd)"
     echo "hostname: $(hostname)"
-    
-    OMP_PROC_BIND=true OMP_NUM_THREAD=16 ../02mm/exe/mm_omp.exe
+
+    ../02mm/exe/mm_seq.exe -K 4096 -M 4096 -N 4096
+    ../02mm/exe/mm_simd.exe -K 4096 -M 4096 -N 4096
+    OMP_PROC_BIND=true OMP_NUM_THREAD=16 ../02mm/exe/mm_omp.exe -K 4096 -M 4096 -N 4096
 }
 
 # ここから下は書き換える必要なし
