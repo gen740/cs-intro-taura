@@ -3,6 +3,7 @@
  */
 
 /* A : MxK, B : KxN, C : MxN */
+#include "matrix.h"
 
 void mm(matrix& A, matrix& B, matrix& C) {
   long M = A.n_rows, K = A.n_cols, N = B.n_cols;

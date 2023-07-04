@@ -27,6 +27,15 @@ batch_main() {
     echo "whoami: $(whoami)"
     echo "pwd: $(pwd)"
     echo "hostname: $(hostname)"
+
+    echo "################################################## SIMD"
+    ../02mm/exe/mm_simd.exe -K 1000 -M 1000 -N 1024
+
+    echo "################################################## Omp"
+    OMP_PROC_BIND=true OMP_NUM_THREAD=56 ../02mm/exe/mm_omp.exe -K 1000 -M 1000 -N 1024
+
+    echo "################################################## Sequencial"
+    ../02mm/exe/mm_seq.exe -K 1000 -M 1000 -N 1024
 }
 
 # ここから下は書き換える必要なし
