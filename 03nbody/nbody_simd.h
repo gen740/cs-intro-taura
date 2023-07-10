@@ -1,8 +1,6 @@
 #pragma once
 #include "particle.h"
 #include <iostream>
-
-// 4.14s user 0.12s system 99% cpu 4.263 total
 /**
    @file nbody_seq.h --- single-core, non-vectorized implementation
  */
@@ -12,14 +10,14 @@
    r/sqrt(r^2+eps^2))
    @return pがqから受けるポテンシャル (-mM/(r^2+eps^2))
  */
-real interact2(particle *p, /** 力を受ける粒子 */
-               particle *q, /** 力を与える粒子 */
-               real eps     /** ソフトニングパラメータ */
+realv interact2(particlev *p, /** 力を受ける粒子 */
+                particle *q,  /** 力を与える粒子 */
+                real eps      /** ソフトニングパラメータ */
 ) {
-  vec dx = q->pos - p->pos;
-  real r2 = norm2(dx) + eps * eps;
-  real rinv = rsqrt(r2);
-  vec f = dx * (q->m * rinv * rinv * rinv);
+  vecv dx = q->pos - p->pos;
+  realv r2 = norm2v(dx) + eps * eps;
+  realv rinv = rsqrtv(r2);
+  vecv f = dx * (q->m * rinv * rinv * rinv);
   p->acc = p->acc + f;
   return -p->m * q->m * rinv;
 }
@@ -33,41 +31,41 @@ real interact_all(long n,        /** 粒子数 */
                   particlev *pv, /** SIMD粒子の配列(未使用)  */
                   options_t *o   /** コマンドラインオプション  */
 ) {
-
-  for (int i = 0; i < n / n_lanes; i++) {
-    for (int j = 0; j < n_lanes; j++) {
-      pv[i].idx[j] = p->idx;
-      pv[i].m[j] = p->m;
-      for (int i = 0; i < 3; i++) {
-        pv[i].pos.x[i][j] = p->pos.x[i];
-      }
-      for (int i = 0; i < 3; i++) {
-        pv[i].acc.x[i][j] = p->acc.x[i];
-      }
-    }
-  }
-
-  real U = 0.0;
+  realv U = realv{0.0};
   real eps = o->eps;
 
-  for (long i = 0; i < n; i++) {
-    p[i].acc = vec(0.0, 0.0, 0.0);
+  for (int i = 0; i < n / n_lanes; i++) {
+    for (int j = 0; j < n_lanes; j++) {
+      pv[i].m[j] = p[i * n_lanes + j].m;
+      pv[i].pos.x[0][j] = p[i * n_lanes + j].pos.x[0];
+      pv[i].pos.x[1][j] = p[i * n_lanes + j].pos.x[1];
+      pv[i].pos.x[2][j] = p[i * n_lanes + j].pos.x[2];
+      pv[i].acc.x[0][j] = 0;
+      pv[i].acc.x[1][j] = 0;
+      pv[i].acc.x[2][j] = 0;
+    }
   }
-  for (long i = 0; i < n; i++) {
-    for (long j = i + 1; j < n; j++) {
-      U += interact2(p + i, p + j, eps);
-      U += interact2(p + j, p + i, eps);
+
+  for (long i = 0; i < n / n_lanes; i++) {
+    for (long j = 0; j < n; j++) {
+      U += interact2(pv + i, p + j, eps);
     }
   }
 
   for (int i = 0; i < n / n_lanes; i++) {
     for (int j = 0; j < n_lanes; j++) {
-      for (int i = 0; i < 3; i++) {
-        p->acc.x[i] = pv[i].acc.x[i][j];
-      }
+      p[i * n_lanes + j].acc.x[0] = pv[i].acc.x[0][j];
+      p[i * n_lanes + j].acc.x[1] = pv[i].acc.x[1][j];
+      p[i * n_lanes + j].acc.x[2] = pv[i].acc.x[2][j];
     }
   }
-  return 0.5 * U;
+
+  real sum = 0.0;
+  for (int i = 0; i < n_lanes; i++) {
+    sum += U[i];
+  }
+
+  return 0.5 * sum;
 }
 
 /**
