@@ -5,6 +5,7 @@
 
 /* these two are Linux-specific.
    make them zero on other OSes */
+#pragma once
 #if __linux__
 #define HAVE_PERF_EVENT 1
 #define HAVE_CLOCK_GETTIME 1

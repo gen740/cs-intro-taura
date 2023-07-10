@@ -13,9 +13,6 @@ real interact2(particle *p, /** 力を受ける粒子 */
                particle *q, /** 力を与える粒子 */
                real eps     /** ソフトニングパラメータ */
 ) {
-  /* 12 muls, 8 adds, 1 rsqrt */
-  if (p == q)
-    return 0;
   vec dx = q->pos - p->pos;
   real r2 = norm2(dx) + eps * eps;
   real rinv = rsqrt(r2);
@@ -38,8 +35,9 @@ real interact_all(long n,        /** 粒子数 */
   real eps = o->eps;
   for (long i = 0; i < n; i++) {
     p[i].acc = vec(0.0, 0.0, 0.0);
-    for (long j = 0; j < n; j++) {
+    for (long j = i + 1; j < n; j++) {
       U += interact2(p + i, p + j, eps);
+      U += interact2(p + j, p + i, eps);
     }
   }
   return 0.5 * U;

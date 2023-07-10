@@ -1,6 +1,7 @@
 /** 
  * @file nbody.h nbody共通ヘッダファイル
  */
+#pragma once
 
 typedef float real;
 
