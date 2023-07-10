@@ -1,5 +1,6 @@
 #pragma once
 #include "particle.h"
+// 4.14s user 0.12s system 99% cpu 4.263 total
 /**
    @file nbody_seq.h --- single-core, non-vectorized implementation
  */
@@ -33,8 +34,11 @@ real interact_all(long n,        /** 粒子数 */
   (void)pv;
   real U = 0.0;
   real eps = o->eps;
+
   for (long i = 0; i < n; i++) {
     p[i].acc = vec(0.0, 0.0, 0.0);
+  }
+  for (long i = 0; i < n; i++) {
     for (long j = i + 1; j < n; j++) {
       U += interact2(p + i, p + j, eps);
       U += interact2(p + j, p + i, eps);
