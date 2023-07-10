@@ -2,3 +2,4 @@ asm
 exe
 build
 .DS_Store
+*.dat

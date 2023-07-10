@@ -1,5 +1,7 @@
 #pragma once
 #include "particle.h"
+#include <iostream>
+
 // 4.14s user 0.12s system 99% cpu 4.263 total
 /**
    @file nbody_seq.h --- single-core, non-vectorized implementation
@@ -31,7 +33,20 @@ real interact_all(long n,        /** 粒子数 */
                   particlev *pv, /** SIMD粒子の配列(未使用)  */
                   options_t *o   /** コマンドラインオプション  */
 ) {
-  (void)pv;
+
+  for (int i = 0; i < n / n_lanes; i++) {
+    for (int j = 0; j < n_lanes; j++) {
+      pv[i].idx[j] = p->idx;
+      pv[i].m[j] = p->m;
+      for (int i = 0; i < 3; i++) {
+        pv[i].pos.x[i][j] = p->pos.x[i];
+      }
+      for (int i = 0; i < 3; i++) {
+        pv[i].acc.x[i][j] = p->acc.x[i];
+      }
+    }
+  }
+
   real U = 0.0;
   real eps = o->eps;
 
@@ -42,6 +57,14 @@ real interact_all(long n,        /** 粒子数 */
     for (long j = i + 1; j < n; j++) {
       U += interact2(p + i, p + j, eps);
       U += interact2(p + j, p + i, eps);
+    }
+  }
+
+  for (int i = 0; i < n / n_lanes; i++) {
+    for (int j = 0; j < n_lanes; j++) {
+      for (int i = 0; i < 3; i++) {
+        p->acc.x[i] = pv[i].acc.x[i][j];
+      }
     }
   }
   return 0.5 * U;
