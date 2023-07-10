@@ -22,6 +22,7 @@ CFLAGS += -march=native
 CFLAGS += -Wall
 CFLAGS += -Wextra
 CFLAGS += -fopenmp
+CFLAGS += -std=c++17
 
 # perfコマンドのようなイベントをプログラムから取得したい場合は
 # 01perf のプログラムを参考にプログラムを変更して, 以下を追加
