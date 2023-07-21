@@ -1,19 +1,19 @@
 /*
- * mm_seq.h --- ほとんど最適化されていない行列積
+ * mm_omp.hpp
  */
 
 /* A : MxK, B : KxN, C : MxN */
 #include "matrix.h"
 
 constexpr int L = n_lanes;
-constexpr int P = 16;
+constexpr int P = 8;
 
 void mm(matrix &A, matrix &B, matrix &C) {
   long M = A.n_rows, K = A.n_cols, N = B.n_cols;
   assert(B.n_rows == K);
   assert(C.n_rows == M);
   assert(C.n_cols == N);
-  assert(N % (2L * L) == 0);
+  assert(N % L == 0);
   assert(M % P == 0);
 
 #pragma omp parallel for

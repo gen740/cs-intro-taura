@@ -1,13 +1,12 @@
 /*
- * mm_simd.h --- ほとんど最適化されていない行列積
+ * mm_simd.h
  */
 
 /* A : MxK, B : KxN, C : MxN */
 #include "matrix.h"
-#include <array>
 
 constexpr int L = n_lanes;
-constexpr int P = 16;
+constexpr int P = 8;
 
 void mm(matrix &A, matrix &B, matrix &C) {
   long M = A.n_rows, K = A.n_cols, N = B.n_cols;
@@ -15,7 +14,7 @@ void mm(matrix &A, matrix &B, matrix &C) {
   assert(C.n_rows == M);
   assert(C.n_cols == N);
   assert(N % L == 0);
-  assert(M % 8 == 0);
+  assert(M % P == 0);
 
   for (long i = 0; i < M; i += P) {
     for (long j = 0; j < N; j += L) {
