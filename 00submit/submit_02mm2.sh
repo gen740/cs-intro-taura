@@ -8,8 +8,8 @@
 #PJM -g gt11
 #PJM -j
 #PJM -o 0done.txt
-done_txt=0done.txt
-log_txt=0log.txt
+done_txt=1done.txt
+log_txt=1log.txt
 
 # 使い方 :
 # (1) batch_main の中に計算ノードで実行したいコマンドを書く
