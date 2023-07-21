@@ -6,7 +6,7 @@
 #include "matrix.h"
 
 constexpr int L = n_lanes;
-constexpr int P = 1;
+constexpr int P = 16;
 
 void mm(matrix &A, matrix &B, matrix &C) {
   long M = A.n_rows, K = A.n_cols, N = B.n_cols;
