@@ -29,25 +29,25 @@ batch_main() {
     echo "hostname: $(hostname)"
 
     echo "################################################## seq"
-    ../03nbody/exe/nbody_seq.exe -n 8192 -s 5 > nbody_seq.log
+    ../03nbody/exe/nbody_seq.exe -n 131072 -s 1 > nbody_seq.log
 
     echo "################################################## simd"
-    ../03nbody/exe/nbody_simd.exe -n 8192 -s 5 > nbody_simd.log
+    ../03nbody/exe/nbody_simd.exe -n 131072 -s 1 > nbody_simd.log
 
     echo "################################################## Omp"
-    OMP_PROC_BIND=true OMP_NUM_THREADS=2 ../03nbody/exe/nbody_omp.exe -n 8192 -s 5 > nbody_omp2.log
+    OMP_PROC_BIND=true OMP_NUM_THREADS=2 ../03nbody/exe/nbody_omp.exe -n 131072 -s 1 > nbody_omp2.log
 
     echo "################################################## Omp"
-    OMP_PROC_BIND=true OMP_NUM_THREADS=4 ../03nbody/exe/nbody_omp.exe -n 8192 -s 5 > nbody_omp4.log
+    OMP_PROC_BIND=true OMP_NUM_THREADS=4 ../03nbody/exe/nbody_omp.exe -n 131072 -s 1 > nbody_omp4.log
 
     echo "################################################## Omp"
-    OMP_PROC_BIND=true OMP_NUM_THREADS=8 ../03nbody/exe/nbody_omp.exe -n 8192 -s 5 > nbody_omp8.log
+    OMP_PROC_BIND=true OMP_NUM_THREADS=8 ../03nbody/exe/nbody_omp.exe -n 131072 -s 1 > nbody_omp8.log
 
     echo "################################################## Omp"
-    OMP_PROC_BIND=true OMP_NUM_THREADS=16 ../03nbody/exe/nbody_omp.exe -n 8192 -s 5 > nbody_omp16.log
+    OMP_PROC_BIND=true OMP_NUM_THREADS=16 ../03nbody/exe/nbody_omp.exe -n 131072 -s 1 > nbody_omp16.log
 
     echo "################################################## Omp"
-    OMP_PROC_BIND=true OMP_NUM_THREADS=32 ../03nbody/exe/nbody_omp.exe -n 8192 -s 5 > nbody_omp32.log
+    OMP_PROC_BIND=true OMP_NUM_THREADS=32 ../03nbody/exe/nbody_omp.exe -n 131072 -s 1 > nbody_omp32.log
 }
 
 # ここから下は書き換える必要なし
