@@ -16,6 +16,7 @@ inline realv interact2(particlev *p, /** 力を受ける粒子 */
                        particle *q,  /** 力を与える粒子 */
                        real eps      /** ソフトニングパラメータ */
 ) {
+  asm volatile("# simd");
   vecv dx = q->pos - p->pos;
   realv r2 = norm2v(dx) + eps * eps;
   realv rinv = rsqrtv(r2);
