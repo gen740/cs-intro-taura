@@ -29,13 +29,28 @@ batch_main() {
     echo "hostname: $(hostname)"
 
     echo "################################################## Omp"
-    OMP_PROC_BIND=true OMP_NUM_THREAD=16 ../02mm/exe/mm_omp.exe -K 1024 -M 1024 -N 1024 > mm_omp0.log
+    OMP_PROC_BIND=true OMP_NUM_THREAD=2 ../02mm/exe/mm_omp.exe -K 1024 -M 1024 -N 1024 > mm_omp2_0.log
+
+    echo "################################################## Omp"
+    OMP_PROC_BIND=true OMP_NUM_THREAD=4 ../02mm/exe/mm_omp.exe -K 1024 -M 1024 -N 1024 > mm_omp4_0.log
+
+    echo "################################################## Omp"
+    OMP_PROC_BIND=true OMP_NUM_THREAD=8 ../02mm/exe/mm_omp.exe -K 1024 -M 1024 -N 1024 > mm_omp8_0.log
+
+    echo "################################################## Omp"
+    OMP_PROC_BIND=true OMP_NUM_THREAD=16 ../02mm/exe/mm_omp.exe -K 1024 -M 1024 -N 1024 > mm_omp16_0.log
+
+    echo "################################################## Omp"
+    OMP_PROC_BIND=true OMP_NUM_THREAD=32 ../02mm/exe/mm_omp.exe -K 1024 -M 1024 -N 1024 > mm_omp32_0.log
+
+    echo "################################################## Omp"
+    OMP_PROC_BIND=true OMP_NUM_THREAD=56 ../02mm/exe/mm_omp.exe -K 1024 -M 1024 -N 1024 > mm_omp56_0.log
 
     echo "################################################## SIMD"
-    ../02mm/exe/mm_simd.exe -K 1024 -M 1024 -N 1024 > mm_simd0.log
+    ../02mm/exe/mm_simd.exe -K 1024 -M 1024 -N 1024 > mm_simd_0.log
 
     echo "################################################## Sequencial"
-    ../02mm/exe/mm_seq.exe -K 1024 -M 1024 -N 1024 > mm_seq0.log
+    ../02mm/exe/mm_seq.exe -K 1024 -M 1024 -N 1024 > mm_seq_0.log
 }
 
 # ここから下は書き換える必要なし
