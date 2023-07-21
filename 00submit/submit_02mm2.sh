@@ -29,13 +29,13 @@ batch_main() {
     echo "hostname: $(hostname)"
 
     echo "################################################## Sequencial"
-    ../02mm/exe/mm_seq.exe -K 8192 -M 1024 -N 8192 > mm_seq1.log
+    ../02mm/exe/mm_seq.exe -K 4096 -M 1024 -N 4096 > mm_seq1.log
 
     echo "################################################## SIMD"
-    ../02mm/exe/mm_simd.exe -K 8192 -M 1024 -N 8192 > mm_simd1.log
+    ../02mm/exe/mm_simd.exe -K 4096 -M 1024 -N 4096 > mm_simd1.log
 
     echo "################################################## Omp"
-    OMP_PROC_BIND=true OMP_NUM_THREAD=16 ../02mm/exe/mm_omp.exe -K 8192 -M 1024 -N 8192 > mm_omp1.log
+    OMP_PROC_BIND=true OMP_NUM_THREAD=16 ../02mm/exe/mm_omp.exe -K 4096 -M 1024 -N 4096 > mm_omp1.log
 }
 
 # ここから下は書き換える必要なし
