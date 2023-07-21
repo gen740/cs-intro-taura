@@ -6,7 +6,7 @@
 #include "matrix.h"
 
 constexpr int L = n_lanes;
-constexpr int P = 8;
+constexpr int P = 1;
 
 void mm(matrix &A, matrix &B, matrix &C) {
   long M = A.n_rows, K = A.n_cols, N = B.n_cols;
@@ -14,10 +14,10 @@ void mm(matrix &A, matrix &B, matrix &C) {
   assert(C.n_rows == M);
   assert(C.n_cols == N);
   assert(N % (2L * L) == 0);
-  assert(M % 8 == 0);
+  assert(M % P == 0);
 
 #pragma omp parallel for
-  for (long i = 0; i < M; i += 8) {
+  for (long i = 0; i < M; i += P) {
     for (long j = 0; j < N; j += L) {
       realv c[P];
       for (int n = 0; n < P; n++) {

@@ -38,5 +38,3 @@ void mm(matrix &A, matrix &B, matrix &C) {
     }
   }
 }
-
-// 0.828509 GFLOPS normal
