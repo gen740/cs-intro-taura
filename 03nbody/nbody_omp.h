@@ -49,6 +49,7 @@ inline real interact_all(long n,        /** 粒子数 */
     }
   }
 
+#pragma omp parallel for
   for (long i = 0; i < n / n_lanes; i++) {
     for (long j = 0; j < n; j++) {
       uint64_t diff = static_cast<uint64_t>(j - i * n_lanes);

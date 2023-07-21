@@ -28,12 +28,26 @@ batch_main() {
     echo "pwd: $(pwd)"
     echo "hostname: $(hostname)"
 
-    echo "################################################## SIMD"
-    ../03nbody/exe/nbody_seq.exe -n 4096 -s 10 > nbody_seq.log
+    echo "################################################## seq"
+    ../03nbody/exe/nbody_seq.exe -n 8192 -s 5 > nbody_seq.log
+
+    echo "################################################## simd"
+    ../03nbody/exe/nbody_simd.exe -n 8192 -s 5 > nbody_simd.log
 
     echo "################################################## Omp"
-    ../03nbody/exe/nbody_simd.exe -n 4096 -s 10 > nbody_simd.log
+    OMP_PROC_BIND=true OMP_NUM_THREADS=2 ../03nbody/exe/nbody_omp.exe -n 8192 -s 5 > nbody_omp2.log
 
+    echo "################################################## Omp"
+    OMP_PROC_BIND=true OMP_NUM_THREADS=4 ../03nbody/exe/nbody_omp.exe -n 8192 -s 5 > nbody_omp4.log
+
+    echo "################################################## Omp"
+    OMP_PROC_BIND=true OMP_NUM_THREADS=8 ../03nbody/exe/nbody_omp.exe -n 8192 -s 5 > nbody_omp8.log
+
+    echo "################################################## Omp"
+    OMP_PROC_BIND=true OMP_NUM_THREADS=16 ../03nbody/exe/nbody_omp.exe -n 8192 -s 5 > nbody_omp16.log
+
+    echo "################################################## Omp"
+    OMP_PROC_BIND=true OMP_NUM_THREADS=32 ../03nbody/exe/nbody_omp.exe -n 8192 -s 5 > nbody_omp32.log
 }
 
 # ここから下は書き換える必要なし
