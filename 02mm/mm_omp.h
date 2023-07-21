@@ -23,7 +23,6 @@ void mm(matrix &A, matrix &B, matrix &C) {
       for (int n = 0; n < P; n++) {
         c[n] = set1(0.0);
       }
-#pragma omp parallel for
       for (long k = 0; k < K; k++) {
         for (int n = 0; n < P; n++) {
           c[n] += A(i + n, k) * B.loadv(k, j);
